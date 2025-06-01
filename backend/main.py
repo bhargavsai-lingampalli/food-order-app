@@ -70,36 +70,6 @@ def get_current_user(request: Request):
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-@app.get("/login/google")
-async def login_via_google(request: Request):
-    redirect_uri = str(request.url_for('auth_callback'))
-    return await oauth.google.authorize_redirect(request, redirect_uri)
-
-@app.get("/auth/callback")
-async def auth_callback(request: Request):
-    token = await oauth.google.authorize_access_token(request)
-    user_info = await oauth.google.parse_id_token(request, token)
-    if not user_info:
-        return JSONResponse({"error": "Google login failed"}, status_code=400)
-    # Store user if new
-    user = database.database["users"].find_one({"google_id": user_info["sub"]})
-    if not user:
-        user_obj = models.User(
-            google_id=user_info["sub"],
-            email=user_info["email"],
-            name=user_info.get("name", ""),
-            picture=user_info.get("picture", "")
-        )
-        database.database["users"].insert_one(user_obj.to_dict())
-    # Issue JWT
-    access_token = create_access_token({"sub": user_info["sub"]})
-    response = RedirectResponse(url="/")
-    response.set_cookie(key="access_token", value=access_token, httponly=True)
-    return response
-
-@app.get("/auth/me")
-async def get_me(user=Depends(get_current_user)):
-    return user
 
 
 @app.websocket("/ws/orders")

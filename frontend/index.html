@@ -5,7 +5,7 @@
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
     />
 
     <title>Stitch Design</title>
@@ -41,7 +41,6 @@
               <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="./cart.html">Cart</a>
               <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="./orders.html">Orders</a>
             </div>
-            <div id="auth-section" class="flex items-center gap-4"></div>
           </div>
         </header>
         <div class="px-40 flex flex-1 justify-center py-5">
@@ -63,7 +62,7 @@
                     </h2>
                   </div>
                   <button
-                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#e92932] text-[#fcf8f8] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#e92932] text-[#fcf8f8] text-base font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
                   >
                     <span class="truncate">View Menu</span>
                   </button>
@@ -74,36 +73,7 @@
         </div>
       </div>
     </div>
-    <script>
-      async function renderAuthSection() {
-        const section = document.getElementById('auth-section');
-        try {
-          const res = await fetch('http://localhost:8000/auth/me', { credentials: 'include' });
-          if (res.ok) {
-            const user = await res.json();
-            section.innerHTML = `
-              <img src="${user.picture || ''}" alt="User" class="w-8 h-8 rounded-full border"/>
-              <span class="text-[#1b0e0e] text-sm font-medium">${user.name || user.email}</span>
-              <button id="logout-btn" class="bg-[#e92932] text-white px-3 py-1 rounded text-sm">Logout</button>
-            `;
-            document.getElementById('logout-btn').onclick = function() {
-              document.cookie = 'access_token=; Max-Age=0; path=/;';
-              location.reload();
-            };
-          } else {
-            section.innerHTML = `<button id="login-btn" class="bg-[#e92932] text-white px-4 py-2 rounded text-sm font-bold">Login / Signup</button>`;
-            document.getElementById('login-btn').onclick = function() {
-              window.location.href = 'http://localhost:8000/login/google';
-            };
-          }
-        } catch (e) {
-          section.innerHTML = `<button id="login-btn" class="bg-[#e92932] text-white px-4 py-2 rounded text-sm font-bold">Login / Signup</button>`;
-          document.getElementById('login-btn').onclick = function() {
-            window.location.href = 'http://localhost:8000/login/google';
-          };
-        }
-      }
-      renderAuthSection();
-    </script>
   </body>
 </html>
+<script>
+</script>

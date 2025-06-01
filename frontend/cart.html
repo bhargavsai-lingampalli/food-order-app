@@ -5,7 +5,7 @@
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
     />
 
     <title>Stitch Design</title>
@@ -34,19 +34,7 @@
               <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="./menu.html">Menu</a>
               <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="./cart.html">Cart</a>
               <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="./orders.html">Orders</a>
-              {#  <a class="text-[#1b0e0e] text-sm font-medium leading-normal" href="#">Search</a>  #}
             </div>
-            <button
-              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f3e7e8] text-[#1b0e0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-            >
-              <div class="text-[#1b0e0e]" data-icon="ShoppingCart" data-size="20px" data-weight="regular">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                  <path
-                    d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
           </div>
         </header>
         <div class="px-40 flex flex-1 justify-center py-5">
@@ -68,7 +56,9 @@
         </div>
       </div>
     </div>
-    <script>
+  </body>
+</html>
+<script>
 function renderCart() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const cartItemsDiv = document.getElementById('cart-items');
@@ -113,7 +103,7 @@ function renderCart() {
       <p class="text-[#1b0e0e] text-sm font-normal leading-normal text-right">$${delivery_fee.toFixed(2)}</p>
     </div>
     <div class="flex justify-between gap-x-6 py-2">
-      <p class="text-[#994d51] text-sm font-normal leading-normal">Taxes</p>
+      p class="text-[#994d51] text-sm font-normal leading-normal">Taxes</p>
       <p class="text-[#1b0e0e] text-sm font-normal leading-normal text-right">$${taxes.toFixed(2)}</p>
     </div>
     <div class="flex justify-between gap-x-6 py-2">
@@ -134,40 +124,23 @@ function updateQty(idx, delta) {
 document.getElementById('place-order-btn').onclick = async function() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   if (cart.length === 0) return alert('Cart is empty!');
-  const orders = JSON.parse(localStorage.getItem('orders')) || [];
-  const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const delivery_fee = subtotal > 0 ? 2.5 : 0;
-  const taxes = +(subtotal * 0.08).toFixed(2);
-  const total = +(subtotal + delivery_fee + taxes).toFixed(2);
 
-  const order = {
-    order_id: 'ORD' + Date.now(),
-    items: cart,
-    total_amount: total,
-    status: 'Placed',
-    timestamp: new Date().toLocaleString()
-  };
+  // Extract cart item IDs
+  const cartItemIds = cart.map(item => item.menu_item_id);
 
-  // Send order to Flask backend
+  // Send order to backend
   try {
-    await fetch('http://localhost:8000/api/orders', {
+    const response = await fetch(`http://localhost:8000/order/create?cart_item_ids=${encodeURIComponent(JSON.stringify(cartItemIds))}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(order)
     });
+    alert('Order placed!');
+    localStorage.removeItem('cart');
+    renderCart();
   } catch (err) {
-    alert('Failed to notify chef. Please try again.');
-    return;
+    alert('Failed to place order. Please try again.');
+  console.error(err);
   }
-
-  orders.push(order);
-  localStorage.setItem('orders', JSON.stringify(orders));
-  localStorage.removeItem('cart');
-  renderCart();
-  alert('Order placed!');
 };
 
 renderCart();
 </script>
-  </body>
-</html>

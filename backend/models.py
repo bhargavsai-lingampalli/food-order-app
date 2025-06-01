@@ -26,7 +26,7 @@ class CartItem:
 
     def to_dict(self):
         return {
-            "_id": self.id,
+            "_id": str(self.id),
             "menu_item_id": self.menu_item_id,
             "quantity": self.quantity,
         }
@@ -45,11 +45,10 @@ class OrderItem:
 
 
 class Order:
-    def __init__(self, user_id: str, total: float, items: List[OrderItem], status: str = "pending", is_prepared: bool = False, is_completed: bool = False, _id: Optional[ObjectId] = None):
+    def __init__(self, total: float, items: List[OrderItem], status: str = "pending", is_prepared: bool = False, is_completed: bool = False, _id: Optional[ObjectId] = None):
         self.id = _id
-        self.user_id = user_id
         self.total = total
-        self.items = [item.to_dict() for item in items]
+        self.items = items
         self.status = status
         self.is_prepared = is_prepared
         self.is_completed = is_completed
@@ -57,28 +56,9 @@ class Order:
     def to_dict(self):
         return {
             "_id": self.id,
-            "user_id": self.user_id,
             "total": self.total,
-            "items": self.items,
+            "items": [item.to_dict() for item in items],
             "status": self.status,
             "is_prepared": self.is_prepared,
             "is_completed": self.is_completed,
-        }
-
-
-class User:
-    def __init__(self, google_id: str, email: str, name: str, picture: str = None, _id: Optional[ObjectId] = None):
-        self.id = _id
-        self.google_id = google_id
-        self.email = email
-        self.name = name
-        self.picture = picture
-
-    def to_dict(self):
-        return {
-            "_id": self.id,
-            "google_id": self.google_id,
-            "email": self.email,
-            "name": self.name,
-            "picture": self.picture,
         }

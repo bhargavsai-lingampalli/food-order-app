@@ -100,65 +100,144 @@
     </div>
     <script>
       async function fetchMenu() {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
-        let menuItems;
-        try {
-          const response = await fetch('https://localhost:8000/menu');
-          menuItems = await response.json();
-        } catch (error) {
-          console.error('Error fetching menu:', error);
-          return;
-        }
+        await new Promise(resolve => setTimeout(resolve, 500));
+        // Hardcoded menu based on the provided images
+        const menuItems = [
+          // ICE CREAM
+          { name: 'Vanilla Ice Cream', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?vanilla,icecream' },
+          { name: 'Butterscotch Ice Cream', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?butterscotch,icecream' },
+          { name: 'Chocolate Ice Cream', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?chocolate,icecream' },
+          { name: 'Black Current Ice Cream', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?blackcurrant,icecream' },
+          { name: 'American Dryfruit Ice Cream', description: '', price: 79, image_url: 'https://source.unsplash.com/160x160/?dryfruit,icecream' },
+          // BUTTERMILK
+          { name: 'Classic Buttermilk', description: '', price: 29, image_url: 'https://source.unsplash.com/160x160/?buttermilk' },
+          { name: 'Masala Buttermilk', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?masala,buttermilk' },
+          // LASSI
+          { name: 'Sweet Lassi', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?sweet,lassi' },
+          { name: 'Banana Lassi', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?banana,lassi' },
+          { name: 'Mango Lassi', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?mango,lassi' },
+          { name: 'Strawberry Lassi', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?strawberry,lassi' },
+          { name: 'Chocolate Lassi', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?chocolate,lassi' },
+          { name: 'Dry Fruit Lassi', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?dryfruit,lassi' },
+          // SNACKS
+          { name: 'French Fries Small', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?fries' },
+          { name: 'Veg Steamed Momos', description: '', price: 79, image_url: 'https://source.unsplash.com/160x160/?momos,veg' },
+          { name: 'Veg Fried Momos', description: '', price: 89, image_url: 'https://source.unsplash.com/160x160/?fried,momos' },
+          { name: 'Paneer Steamed Momos', description: '', price: 89, image_url: 'https://source.unsplash.com/160x160/?paneer,momos' },
+          { name: 'Paneer Fried Momos', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?paneer,fried,momos' },
+          { name: 'Chicken Steamed Momos', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?chicken,momos' },
+          { name: 'French Fries Large', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?fries,large' },
+          { name: 'Chicken Nuggets', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?chicken,nuggets' },
+          { name: 'Chicken Fried Momos', description: '', price: 119, image_url: 'https://source.unsplash.com/160x160/?chicken,fried,momos' },
+          // MAGGIE
+          { name: 'Veg Maggie', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?maggie,veg' },
+          { name: 'Egg Maggie', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?egg,maggie' },
+          // SIZZLING BROWNIE
+          { name: 'Sizzling Brownie', description: '', price: 139, image_url: 'https://source.unsplash.com/160x160/?brownie,sizzling' },
+          // COMBO OFFERS
+          { name: 'French Fries + Matka Soda', description: '(Any Single Flavoured)', price: 79, image_url: 'https://source.unsplash.com/160x160/?fries,soda' },
+          { name: 'Maggie + Mocktail', description: '(Any Single Flavoured)', price: 89, image_url: 'https://source.unsplash.com/160x160/?maggie,mocktail' },
+          { name: 'French Fries + Mocktail', description: '(Any Single Flavoured)', price: 99, image_url: 'https://source.unsplash.com/160x160/?fries,mocktail' },
+          { name: 'Veg Steamed Momos + Mocktail', description: '(Any Single Flavoured)', price: 109, image_url: 'https://source.unsplash.com/160x160/?momos,mocktail' },
+          { name: 'French Fries + Butterscotch Shake', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?fries,butterscotch,shake' },
+          { name: 'Chicken Steamed Momos + Mocktail', description: '(Any Single Flavoured)', price: 129, image_url: 'https://source.unsplash.com/160x160/?chicken,momos,mocktail' },
+          { name: 'Chicken Fried Momos + Oreo Shake', description: '', price: 169, image_url: 'https://source.unsplash.com/160x160/?chicken,fried,momos,oreo,shake' },
+          // TEA ITEMS
+          { name: 'Tea', description: '', price: 15, image_url: 'https://source.unsplash.com/160x160/?tea' },
+          { name: 'Ginger Tea', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?ginger,tea' },
+          { name: 'Elaichi Tea', description: '', price: 25, image_url: 'https://source.unsplash.com/160x160/?elaichi,tea' },
+          { name: 'Lemon Tea', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?lemon,tea' },
+          { name: 'Green Tea', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?green,tea' },
+          { name: 'Sonti Tea', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?sonti,tea' },
+          { name: 'Coffee', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?coffee' },
+          { name: 'Black Coffee', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?black,coffee' },
+          { name: 'Milk', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?milk' },
+          { name: 'Boost', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?boost,drink' },
+          { name: 'Horlics', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?horlics,drink' },
+          { name: 'Bornvita', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?bornvita,drink' },
+          { name: 'Sonti Milk', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?sonti,milk' },
+          // SODA
+          { name: 'Fresh Lime Salt', description: '', price: 20, image_url: 'https://source.unsplash.com/160x160/?lime,soda' },
+          { name: 'Fresh Lime Sweet', description: '', price: 25, image_url: 'https://source.unsplash.com/160x160/?lime,sweet,soda' },
+          { name: 'Masala Soda', description: '', price: 29, image_url: 'https://source.unsplash.com/160x160/?masala,soda' },
+          { name: 'Sugandhi Soda', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?sugandhi,soda' },
+          { name: 'Ful-jar Soda', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?fuljar,soda' },
+          // MATKA BEVERAGES
+          { name: 'Matka Salt Soda', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?matka,salt,soda' },
+          { name: 'Matka Sweet Soda', description: '', price: 39, image_url: 'https://source.unsplash.com/160x160/?matka,sweet,soda' },
+          { name: 'Matka Masala Soda', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?matka,masala,soda' },
+          { name: 'Matka Classic Butter Milk', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?matka,buttermilk' },
+          { name: 'Matka Masala Butter Milk', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?matka,masala,buttermilk' },
+          { name: 'Matka Sweet Lassi', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?matka,sweet,lassi' },
+          // SUMMER SPECIAL
+          { name: 'Milk Sarbath', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?milk,sarbath' },
+          // MOCKTAILS
+          { name: 'Mint Mocktail', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?mint,mocktail' },
+          { name: 'Classic Lemonade', description: '', price: 49, image_url: 'https://source.unsplash.com/160x160/?lemonade,mocktail' },
+          { name: 'Blue Curacao', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?blue,curacao' },
+          { name: 'Water Melon Mocktail', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?watermelon,mocktail' },
+          { name: 'Green Apple Mocktail', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?green,apple,mocktail' },
+          { name: 'Strawberry Mocktail', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?strawberry,mocktail' },
+          { name: 'Virgin Mocktail', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?virgin,mocktail' },
+          { name: 'Kala Katta', description: '', price: 59, image_url: 'https://source.unsplash.com/160x160/?kala,katta' },
+          { name: 'Cranberry Spritz', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?cranberry,spritz' },
+          // SHAKES
+          { name: 'Chocolate Shake', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?chocolate,shake' },
+          { name: 'Butterscotch Shake', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?butterscotch,shake' },
+          { name: 'Vanilla Shake', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?vanilla,shake' },
+          { name: 'Strawberry Shake', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?strawberry,shake' },
+          { name: 'Mango Shake', description: '', price: 69, image_url: 'https://source.unsplash.com/160x160/?mango,shake' },
+          { name: 'Oreo Shake', description: '', price: 79, image_url: 'https://source.unsplash.com/160x160/?oreo,shake' },
+          { name: 'Nutella Shake', description: '', price: 79, image_url: 'https://source.unsplash.com/160x160/?nutella,shake' },
+          { name: 'Nutella Chips Shake', description: '', price: 89, image_url: 'https://source.unsplash.com/160x160/?nutella,chips,shake' },
+          { name: 'Kit Kat Shake', description: '', price: 89, image_url: 'https://source.unsplash.com/160x160/?kitkat,shake' },
+          { name: 'Kit Kat Chips Shake', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?kitkat,chips,shake' },
+          { name: 'Black Current Shake', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?blackcurrant,shake' },
+          { name: 'Pista Shake', description: '', price: 99, image_url: 'https://source.unsplash.com/160x160/?pista,shake' },
+          { name: 'Dry Fruit Shake', description: '', price: 119, image_url: 'https://source.unsplash.com/160x160/?dryfruit,shake' },
+          { name: 'Nuts Overloaded Shake', description: '', price: 129, image_url: 'https://source.unsplash.com/160x160/?nuts,shake' },
+        ];
 
         const menuContainer = document.getElementById('menu-container');
-
+        menuContainer.innerHTML = '';
         menuItems.forEach(item => {
           const menuItemDiv = document.createElement('div');
-          menuItemDiv.classList.add('flex', 'flex-col', 'gap-3', 'pb-3');
-
-          const imageDiv = document.createElement('div');
-          imageDiv.classList.add('w-full', 'bg-center', 'bg-no-repeat', 'aspect-square', 'bg-cover', 'rounded-xl');
-          imageDiv.style.backgroundImage = `url("${item.image_url}")`;
-
+          menuItemDiv.classList.add('flex', 'flex-col', 'gap-2', 'pb-3', 'border', 'rounded', 'p-3', 'bg-white', 'shadow');
+          // Remove image
+          // const imageDiv = document.createElement('div');
+          // imageDiv.classList.add('w-full', 'bg-center', 'bg-no-repeat', 'aspect-square', 'bg-cover', 'rounded-xl');
+          // imageDiv.style.backgroundImage = `url("${item.image_url}")`;
           const textDiv = document.createElement('div');
-
           const nameP = document.createElement('p');
           nameP.classList.add('text-[#1b0e0e]', 'text-base', 'font-medium', 'leading-normal');
           nameP.textContent = item.name;
-
           const priceP = document.createElement('p');
           priceP.classList.add('text-[#994d51]', 'text-sm', 'font-normal', 'leading-normal');
-          priceP.textContent = `$${item.price}`;
-
+          priceP.textContent = `₹${item.price}`;
           const addButton = document.createElement('button');
           addButton.classList.add('bg-[#f3e7e8]', 'text-[#1b0e0e]', 'rounded-full', 'px-2', 'py-1', 'text-sm', 'font-bold');
           addButton.textContent = 'Add to Cart';
-
           addButton.addEventListener('click', () => {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existing = cart.find(i => i.name === item.name);
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({
-            name: item.name,
-            description: item.description,
-            price: item.price,
-            image_url: item.image_url,
-            quantity: 1
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(i => i.name === item.name);
+            if (existing) {
+              existing.quantity += 1;
+            } else {
+              cart.push({
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                quantity: 1
+              });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Added to cart!');
           });
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert('Added to cart!');
-      });
-
           textDiv.appendChild(nameP);
           textDiv.appendChild(priceP);
           textDiv.appendChild(addButton);
-
-          menuItemDiv.appendChild(imageDiv);
+          // menuItemDiv.appendChild(imageDiv); // Remove image
           menuItemDiv.appendChild(textDiv);
-
           menuContainer.appendChild(menuItemDiv);
         });
       }
@@ -187,49 +266,70 @@
           return;
         }
         const menuContainer = document.getElementById('menu-container');
-        menuItems.forEach(item => {
-          const menuItemDiv = document.createElement('div');
-          menuItemDiv.classList.add('flex', 'flex-col', 'gap-3', 'pb-3');
-          const imageDiv = document.createElement('div');
-          imageDiv.classList.add('w-full', 'bg-center', 'bg-no-repeat', 'aspect-square', 'bg-cover', 'rounded-xl');
-          imageDiv.style.backgroundImage = `url("${item.image_url}")`;
-          const textDiv = document.createElement('div');
-          const nameP = document.createElement('p');
-          nameP.classList.add('text-[#1b0e0e]', 'text-base', 'font-medium', 'leading-normal');
-          nameP.textContent = item.name;
-          const priceP = document.createElement('p');
-          priceP.classList.add('text-[#994d51]', 'text-sm', 'font-normal', 'leading-normal');
-          priceP.textContent = `$${item.price}`;
-          const addButton = document.createElement('button');
-          addButton.classList.add('bg-[#f3e7e8]', 'text-[#1b0e0e]', 'rounded-full', 'px-2', 'py-1', 'text-sm', 'font-bold');
-          addButton.textContent = 'Add to Cart';
-          addButton.addEventListener('click', async () => {
-            if (!(await isLoggedIn())) {
-              document.getElementById('login-modal').classList.remove('hidden');
-              return;
-            }
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const existing = cart.find(i => i.name === item.name);
-            if (existing) {
-              existing.quantity += 1;
-            } else {
-              cart.push({
-                name: item.name,
-                description: item.description,
-                price: item.price,
-                image_url: item.image_url,
-                quantity: 1
-              });
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Added to cart!');
+        // Group menu items by category
+        const categories = [
+          { name: 'Ice Cream', items: menuItems.filter(i => i.name.includes('Ice Cream')) },
+          { name: 'Buttermilk', items: menuItems.filter(i => i.name.includes('Buttermilk')) },
+          { name: 'Lassi', items: menuItems.filter(i => i.name.includes('Lassi')) },
+          { name: 'Snacks', items: menuItems.filter(i => i.name.includes('Fries') || i.name.includes('Momos') || i.name.includes('Nuggets')) },
+          { name: 'Maggie', items: menuItems.filter(i => i.name.includes('Maggie')) },
+          { name: 'Sizzling Brownie', items: menuItems.filter(i => i.name.includes('Brownie')) },
+          { name: 'Combo Offer', items: menuItems.filter(i => i.name.includes('+')) },
+          { name: 'Tea Items', items: menuItems.filter(i => i.name.includes('Tea') || i.name === 'Coffee' || i.name === 'Black Coffee' || i.name === 'Milk' || i.name === 'Boost' || i.name === 'Horlics' || i.name === 'Bornvita' || i.name === 'Sonti Milk') },
+          { name: 'Soda', items: menuItems.filter(i => i.name.includes('Soda') && !i.name.includes('Matka')) },
+          { name: 'Matka Beverages', items: menuItems.filter(i => i.name.includes('Matka')) },
+          { name: 'Summer Special', items: menuItems.filter(i => i.name.includes('Sarbath')) },
+          { name: 'Mocktails', items: menuItems.filter(i => i.name.includes('Mocktail') || i.name === 'Kala Katta' || i.name === 'Cranberry Spritz') },
+          { name: 'Shakes', items: menuItems.filter(i => i.name.includes('Shake')) },
+        ];
+        menuContainer.innerHTML = '';
+        categories.forEach(category => {
+          if (category.items.length === 0) return;
+          const catHeader = document.createElement('h2');
+          catHeader.textContent = category.name;
+          catHeader.className = 'text-2xl font-extrabold text-[#994d51] mt-10 mb-3 border-b-2 border-[#994d51] pb-1';
+          menuContainer.appendChild(catHeader);
+          category.items.forEach(item => {
+            const menuItemDiv = document.createElement('div');
+            menuItemDiv.classList.add('flex', 'flex-col', 'gap-2', 'pb-3', 'border', 'rounded', 'p-3', 'bg-white', 'shadow');
+            const textDiv = document.createElement('div');
+            const nameP = document.createElement('p');
+            nameP.classList.add('text-[#1b0e0e]', 'text-base', 'font-medium', 'leading-normal');
+            nameP.textContent = item.name;
+            const priceP = document.createElement('p');
+            priceP.classList.add('text-[#994d51]', 'text-sm', 'font-normal', 'leading-normal');
+            priceP.textContent = `$${item.price}`;
+            const addButton = document.createElement('button');
+            addButton.classList.add('bg-[#f3e7e8]', 'text-[#1b0e0e]', 'rounded-full', 'px-2', 'py-1', 'text-sm', 'font-bold');
+            addButton.textContent = 'Add to Cart';
+            addButton.addEventListener('click', async () => {
+              if (!(await isLoggedIn())) {
+                document.getElementById('login-modal').classList.remove('hidden');
+                return;
+              }
+              let cart = JSON.parse(localStorage.getItem('cart')) || [];
+              const existing = cart.find(i => i.name === item.name);
+              if (existing) {
+                existing.quantity += 1;
+              } else {
+                cart.push({
+                  name: item.name,
+                  description: item.description,
+                  price: item.price,
+                  image_url: item.image_url,
+                  quantity: 1
+                });
+              }
+              localStorage.setItem('cart', JSON.stringify(cart));
+              alert('Added to cart!');
+            });
+            textDiv.appendChild(nameP);
+            textDiv.appendChild(priceP);
+            textDiv.appendChild(addButton);
+            // menuItemDiv.appendChild(imageDiv); // Remove image
+            menuItemDiv.appendChild(textDiv);
+            menuContainer.appendChild(menuItemDiv);
           });
-          textDiv.appendChild(nameP);
-          textDiv.appendChild(priceP);
-          textDiv.appendChild(addButton);
-          menuItemDiv.appendChild(imageDiv);
-          menuItemDiv.appendChild(textDiv);
-          menuContainer.appendChild(menuItemDiv);
         });
       }
 
