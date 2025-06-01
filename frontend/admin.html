@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+
+    <title>Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcf8f8] group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f3e7e8] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#1b0e0e]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="text-[#1b0e0e] text-lg font-bold leading-tight tracking-[-0.015em]">Foodie</h2>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#1b0e0e] tracking-light text-[32px] font-bold leading-tight min-w-72">Admin Dashboard</p></div>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-xl border border-[#e7d0d1] bg-[#fcf8f8]">
+                <table class="flex-1">
+                  <thead>
+                    <tr class="bg-[#fcf8f8]">
+                      <th class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-120 px-4 py-3 text-left text-[#1b0e0e] w-[400px] text-sm font-medium leading-normal">
+                        Customer/Order ID
+                      </th>
+                      <th class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-240 px-4 py-3 text-left text-[#1b0e0e] w-[400px] text-sm font-medium leading-normal">Time</th>
+                      <th class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-360 px-4 py-3 text-left text-[#1b0e0e] w-[400px] text-sm font-medium leading-normal">
+                        Items
+                      </th>
+                      <th class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-480 px-4 py-3 text-left text-[#1b0e0e] w-60 text-sm font-medium leading-normal">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr class="border-t border-t-[#e7d0d1]">
+                      <td class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-120 h-[72px] px-4 py-2 w-[400px] text-[#1b0e0e] text-sm font-normal leading-normal">{{ order.customer_id }} / {{ order.order_id }}</td>
+                      <td class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-240 h-[72px] px-4 py-2 w-[400px] text-[#994d51] text-sm font-normal leading-normal">{{ order.time }}</td>
+                      <td class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-360 h-[72px] px-4 py-2 w-[400px] text-[#994d51] text-sm font-normal leading-normal">{{ order.items }}</td>
+                      <td class="table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                        <button
+                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f3e7e8] text-[#1b0e0e] text-sm font-medium leading-normal w-full"
+                        >
+                          <span class="truncate">Mark as Completed</span>
+                        </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <style>
+                @container(max-width:120px){.table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-120{display: none;}}
+                @container(max-width:240px){.table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-240{display: none;}}
+                @container(max-width:360px){.table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-360{display: none;}}
+                @container(max-width:480px){.table-768e0fed-d275-4fd3-8e9f-c1a67de74c0c-column-480{display: none;}}
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

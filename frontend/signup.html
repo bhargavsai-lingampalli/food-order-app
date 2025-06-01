@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-[#fcf8f8] flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md flex flex-col items-center">
+    <h1 class="text-2xl font-bold mb-6 text-[#1b0e0e]">Sign Up</h1>
+    <button id="google-signup" class="flex items-center gap-2 bg-[#e92932] text-white px-6 py-3 rounded-lg font-semibold text-lg hover:bg-[#c41f27] transition">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="w-6 h-6" alt="Google logo"/>
+      Sign up with Google
+    </button>
+    <p class="mt-6 text-gray-500 text-sm text-center">By signing up, you agree to our <a href="#" class="underline">Terms of Service</a> and <a href="#" class="underline">Privacy Policy</a>.</p>
+  </div>
+  <script>
+    document.getElementById('google-signup').onclick = function() {
+      window.location.href = 'http://localhost:8000/login/google';
+    };
+  </script>
+</body>
+</html>
