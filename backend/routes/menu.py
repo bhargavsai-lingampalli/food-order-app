@@ -13,7 +13,6 @@ async def get_menu():
     menu_items = list(database.database["menu_items"].find())
     for item in menu_items:
         item["_id"] = str(item["_id"])
-    print(json.dumps(menu_items))
     return menu_items
 
 

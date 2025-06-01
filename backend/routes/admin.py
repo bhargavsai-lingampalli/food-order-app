@@ -5,7 +5,7 @@ from bson import ObjectId
 
 router = APIRouter()
 
-@router.get("/admin/orders")
+@router.get("/orders")
 async def get_all_orders():
     orders = []
     for order in database.database["orders"].find():
@@ -15,7 +15,7 @@ async def get_all_orders():
     return orders
 
 
-@router.put("/admin/order/{order_id}/done")
+@router.put("/order/{order_id}/done")
 async def update_order_status(order_id: str, status: str):
     """Update order status"""
     order = database.database["orders"].find_one({"_id": ObjectId(order_id)})

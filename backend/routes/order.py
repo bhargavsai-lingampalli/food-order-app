@@ -13,28 +13,27 @@ from fastapi import Query
 import json
 
 @router.post("/create")
-async def create_order(cart_item_ids: str = Query(...)):
+async def create_order(cart_items: str = Query(...)):
     """
-    Create a new order.  Assumes cart_item_ids is a list of cart item IDs.
+    Create a new order.  Assumes cart_items is a list of objects with menu_item_id and quantity.
     """
-    cart_item_ids = json.loads(cart_item_ids)
+    cart_items = json.loads(cart_items)
     total = 0.0
     order_items = []
 
-    for cart_item_id in cart_item_ids:
-        cart_item_record = database.database["cart_items"].find_one({"_id": ObjectId(cart_item_id)})
-        if not cart_item_record:
-            raise HTTPException(status_code=404, detail=f"Cart item {cart_item_id} not found")
+    for item in cart_items:
+        menu_item_id = item["menu_item_id"]
+        quantity = item["quantity"]
 
-        menu_item = database.database["menu_items"].find_one({"_id": ObjectId(cart_item_record["menu_item_id"])})
+        menu_item = database.database["menu_items"].find_one({"_id": ObjectId(menu_item_id)})
         if not menu_item:
-            raise HTTPException(status_code=404, detail=f"Menu item for cart item {cart_item_id} not found")
+            raise HTTPException(status_code=404, detail=f"Menu item {menu_item_id} not found")
 
-        total += float(menu_item["price"]) * cart_item_record["quantity"]
+        total += float(menu_item["price"]) * quantity
 
         order_item = models.OrderItem(
-            menu_item_id=str(menu_item["_id"]),
-            quantity=cart_item_record["quantity"]
+            menu_item_id=menu_item_id,
+            quantity=quantity
         )
         order_items.append(order_item.to_dict())
 

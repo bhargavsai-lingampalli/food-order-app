@@ -12,16 +12,18 @@ load_dotenv()  # Load environment variables from .env file
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
-# CORS middleware to allow cross-origin requests from the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:53734"],
+    allow_origins=["*"],  # Allows all origins
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"]  # Allows all headers
 )
+
 
 # Include routers
 app.include_router(menu.router)
