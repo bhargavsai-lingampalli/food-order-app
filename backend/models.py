@@ -57,7 +57,7 @@ class Order:
         return {
             "_id": self.id,
             "total": self.total,
-            "items": [item.to_dict() for item in items],
+            "items": [item.to_dict() for item in self.items],
             "status": self.status,
             "is_prepared": self.is_prepared,
             "is_completed": self.is_completed,

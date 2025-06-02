@@ -11,11 +11,12 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
-
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
+# Serve static files from the "frontend/public" directory
 app = FastAPI()
-
+app.mount("/", StaticFiles(directory="frontend/public", html=True), name="static")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins
